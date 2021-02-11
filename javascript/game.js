@@ -40,35 +40,24 @@ exports.Game = function() {
     return 'Rock';
   };
 
-  this.createRockQuestion = function(index){
-    return "Rock Question "+index;
-  };
 
   for(var i = 0; i < 50; i++){
     popQuestions.push("Pop Question "+i);
     scienceQuestions.push("Science Question "+i);
     sportsQuestions.push("Sports Question "+i);
-    rockQuestions.push(this.createRockQuestion(i));
-  };
-
-  this.isPlayable = function(howManyPlayers){
-    return howManyPlayers >= 2;
+    rockQuestions.push("Rock Question "+i);
   };
 
   this.add = function(playerName){
     players.push(playerName);
-    places[this.howManyPlayers() - 1] = 0;
-    purses[this.howManyPlayers() - 1] = 0;
-    inPenaltyBox[this.howManyPlayers() - 1] = false;
+    places[players.length - 1] = 0;
+    purses[players.length - 1] = 0;
+    inPenaltyBox[players.length - 1] = false;
 
     console.log(playerName + " was added");
     console.log("They are player number " + players.length);
 
     return true;
-  };
-
-  this.howManyPlayers = function(){
-    return players.length;
   };
 
 
@@ -92,11 +81,8 @@ exports.Game = function() {
         isGettingOutOfPenaltyBox = true;
 
         console.log(players[currentPlayer] + " is getting out of the penalty box");
-        places[currentPlayer] = places[currentPlayer] + roll;
-        if(places[currentPlayer] > 11){
-          places[currentPlayer] = places[currentPlayer] - 12;
-        }
-
+        places[currentPlayer] = places[currentPlayer] + roll; 
+        places[currentPlayer] = places[currentPlayer] > 11 ? places[currentPlayer] - 12 : places[currentPlayer]
         console.log(players[currentPlayer] + "'s new location is " + places[currentPlayer]);
         console.log("The category is " + currentCategory());
         askQuestion();
@@ -107,9 +93,7 @@ exports.Game = function() {
     }else{
 
       places[currentPlayer] = places[currentPlayer] + roll;
-      if(places[currentPlayer] > 11){
-        places[currentPlayer] = places[currentPlayer] - 12;
-      }
+      places[currentPlayer] = places[currentPlayer] > 11 ? places[currentPlayer] - 12 : places[currentPlayer]
 
       console.log(players[currentPlayer] + "'s new location is " + places[currentPlayer]);
       console.log("The category is " + currentCategory());
@@ -127,14 +111,12 @@ exports.Game = function() {
 
         var winner = didPlayerWin();
         currentPlayer += 1;
-        if(currentPlayer == players.length)
-          currentPlayer = 0;
+        currentPlayer = currentPlayer == players.length ? 0 : currentPlayer 
 
         return winner;
       }else{
         currentPlayer += 1;
-        if(currentPlayer == players.length)
-          currentPlayer = 0;
+        currentPlayer = currentPlayer == players.length ? 0 : currentPlayer        
         return true;
       }
 
@@ -151,8 +133,7 @@ exports.Game = function() {
       var winner = didPlayerWin();
 
       currentPlayer += 1;
-      if(currentPlayer == players.length)
-        currentPlayer = 0;
+      currentPlayer = currentPlayer == players.length ? 0 : currentPlayer 
 
       return winner;
     }
@@ -164,8 +145,7 @@ exports.Game = function() {
 		inPenaltyBox[currentPlayer] = true;
 
     currentPlayer += 1;
-    if(currentPlayer == players.length)
-      currentPlayer = 0;
+    currentPlayer = currentPlayer == players.length ? 0 : currentPlayer 
 		return true;
   };
 };
